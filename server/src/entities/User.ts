@@ -1,7 +1,15 @@
 import { IsEmail, Length } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, BeforeInsert } from 'typeorm';
-import bcrypt from 'bcryptjs'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  OneToMany,
+  BeforeInsert,
+} from 'typeorm';
+import bcrypt from 'bcryptjs';
 import Post from './Post';
+import Vote from './Vote';
 
 @Entity('users')
 export class User {
@@ -23,11 +31,11 @@ export class User {
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
-  @OneToMany(() => Vote, (vote) => vote.user);
-  votes: Vote[]
+  @OneToMany(() => Vote, (vote) => vote.user)
+  votes: Vote[];
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 6)
+    this.password = await bcrypt.hash(this.password, 6);
   }
 }
