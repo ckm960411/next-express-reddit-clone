@@ -9,6 +9,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { makeId, slugify } from '../utils/helper';
+import { Comment } from './Comment';
 import BaseEntity from './Entity';
 import Sub from './Sub';
 import { User } from './User';
