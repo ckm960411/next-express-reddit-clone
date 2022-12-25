@@ -1,9 +1,16 @@
-import Head from 'next/head';
-import Image from 'next/image';
+import axios from 'axios';
+import { NextPage } from 'next';
 import Link from 'next/link';
-import styles from '../styles/Home.module.css';
+import useSWR from 'swr';
+import { Sub } from '../types';
 
-export default function Home() {
+const Home: NextPage = () => {
+  const fetcher = async (url: string) => {
+    return await axios.get(url).then((res) => res.data);
+  };
+  const address = '/subs/sub/topSubs';
+  const { data: topSubs } = useSWR<Sub[]>(address, fetcher);
+
   return (
     <div>
       <h1 className="flex max-w-5xl px-4 pt-5 mx-auto">
@@ -32,4 +39,6 @@ export default function Home() {
       </h1>
     </div>
   );
-}
+};
+
+export default Home;
