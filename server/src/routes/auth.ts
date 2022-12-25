@@ -116,7 +116,24 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
+const logout = async (_: Request, res: Response) => {
+  res.set(
+    'Set-Cookie',
+    cookie.serialize('token', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      expires: new Date(0),
+      path: '/',
+    })
+  );
+
+  res.status(200).json({ succuess: true });
+};
+
 const router = Router();
+
+router.post('/logout', userMiddleware, authMiddleware, logout);
 router.get('/me', userMiddleware, authMiddleware, me);
 router.post('/register', register);
 router.post('/login', login);

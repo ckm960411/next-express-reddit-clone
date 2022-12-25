@@ -1,10 +1,20 @@
+import axios from 'axios';
 import Link from 'next/link';
-import { useAuthState } from '../context/auth';
+import { useAuthDispatch, useAuthState } from '../context/auth';
 
 const Navbar = () => {
   const { authenticated, loading } = useAuthState();
+  const dispatch = useAuthDispatch();
 
-  const logout = () => {};
+  const logout = async () => {
+    axios
+      .post('/auth/logout')
+      .then(() => {
+        dispatch('LOGOUT');
+        window.location.reload();
+      })
+      .catch(console.log);
+  };
 
   return (
     <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-16 px-5 bg-white">
